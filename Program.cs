@@ -19,7 +19,7 @@ namespace VirusHeuristicAnalize
                 foreach (string path in files)
                 {
                     File file = new File(path);
-                    Console.WriteLine("{0,-45} {1,-15} {2,-10}", path, file.IsInfected() ? "ЗАРАЖЕН" : "не заражен", file.TypeFile());
+                    Console.WriteLine("{0,-45} {1,-15} {2,-10}", path, file.IsInfected() ? "ЗАРАЖЕН" : "не заражен"/*, file.TypeFile()*/);
                 }
                 Console.ReadLine();
             }

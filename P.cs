@@ -8,34 +8,10 @@ namespace VirusHeuristicAnalize
 {
     class P
     {
-        private double _infected = 0;
-        private double _uninfected = 0;
+        public double infected { get; } = 0.0;
+        public double uninfected { get; } = 1.0;
         private double _weight = 1;
         
-        public double Infected
-        {
-            get
-            {
-                return _infected;
-            }
-            set
-            {
-                if (/*value <= 1 &&*/ value >= 0)
-                    _infected = value;
-            }
-        }
-        public double Uninfected
-        {
-            get
-            {
-                return _uninfected;
-            }
-            set
-            {
-                if (/*value <= 1 &&*/ value >= 0)
-                    _uninfected = value;
-            }
-        }
         public double Weight
         {
             get
@@ -51,21 +27,22 @@ namespace VirusHeuristicAnalize
         
         public P()
         {
-            _infected = 0;
-            _uninfected = 0;
+            infected = 0.0;
+            uninfected = 1.0;
             _weight = 1;
         }
         public P(double infected, double uninfected, double weight)
         {
-            _infected = infected;
-            _uninfected = uninfected;
+            double sum = infected + uninfected;
+            this.infected = infected / sum;
+            this.uninfected = uninfected / sum;
             _weight = weight;
         }
 
         public static P operator +(P prob1, P prob2)
         {
-            return new P(prob1._infected * prob1._weight + prob2._infected * prob2._weight, 
-                        prob1._uninfected * prob1._weight + prob2._uninfected * prob2._weight, 
+            return new P(prob1.infected * prob1._weight + prob2.infected * prob2._weight,
+                        prob1.uninfected * prob1._weight + prob2.uninfected * prob2._weight,
                         1);
         }
 
@@ -80,11 +57,6 @@ namespace VirusHeuristicAnalize
                 }
             }
             return res;
-        }
-
-        public bool isNull()
-        {
-            return _infected == 0 && _uninfected == 0;
         }
     }
 }

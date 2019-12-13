@@ -43,22 +43,22 @@ namespace VirusHeuristicAnalize
             probabilites[2] = contain_not_round_IP(0.4);        //EXE-вирус может использовать не jmp, а другое значение IP
             
             P result = P.SumArray(probabilites);
-            if (result.Infected >= 0.8)
+            if (result.infected >= 0.8)
                 return true;
             else
                 return false;
         }
 
-        public string TypeFile()
-        {
-            //Вторая ступень анализатора. 
-            //MZ определит, но если этих букв в начале нет, это может быть и не COM-файл
-            P prob = contain_MZ(1);
-            if (prob.Infected == 1.0)
-                return "EXE-файл";
-            else
-                return "undefined";
-        }
+        //public string TypeFile()
+        //{
+        //    //Вторая ступень анализатора. 
+        //    //MZ определит, но если этих букв в начале нет, это может быть и не COM-файл
+        //    P prob = contain_MZ(1);
+        //    if (prob.infected == 1.0)
+        //        return "EXE-файл";
+        //    else
+        //        return "undefined";
+        //}
 
         private P contain_keyword (double weight)
         {
@@ -75,21 +75,21 @@ namespace VirusHeuristicAnalize
                 FindSubarray(byte_buf, StringToByteArray(keywords[1].ToUpper())) > -1 ||
                 FindSubarray(byte_buf, StringToByteArray(keywords[1].ToLower())) > -1)
             {
-                prob = new P(0.5, 0.0, weight);
+                prob = new P(0.5, 0.5, weight);
             }
             else
                 if (FindSubarray(byte_buf, StringToByteArray(keywords[2])) > -1 ||
                 FindSubarray(byte_buf, StringToByteArray(keywords[2].ToUpper())) > -1 ||
                 FindSubarray(byte_buf, StringToByteArray(keywords[2].ToLower())) > -1)
             {
-                prob = new P(0.2, 0.0, weight);
+                prob = new P(0.2, 0.8, weight);
             }
             else
                 if (FindSubarray(byte_buf, StringToByteArray(keywords[3])) > -1 ||
                 FindSubarray(byte_buf, StringToByteArray(keywords[3].ToUpper())) > -1 ||
                 FindSubarray(byte_buf, StringToByteArray(keywords[3].ToLower())) > -1)
             {
-                prob = new P(0.2, 0.0, weight);
+                prob = new P(0.2, 0.8, weight);
             }
             else
                 prob = new P();
@@ -135,17 +135,17 @@ namespace VirusHeuristicAnalize
             return prob;
         }
 
-        private P contain_MZ(double weight)
-        {
-            P prob;
-            if (byte_buf[0x00] == 'M' && byte_buf[0x01] == 'Z')
-            {
-                prob = new P(1.0, 0.0, weight);
-            }
-            else
-                prob = new P(0.0, 1.0, weight);
-            return prob;
-        }
+        //private P contain_MZ(double weight)
+        //{
+        //    P prob;
+        //    if (byte_buf[0x00] == 'M' && byte_buf[0x01] == 'Z')
+        //    {
+        //        prob = new P(1.0, 0.0, weight);
+        //    }
+        //    else
+        //        prob = new P(0.0, 1.0, weight);
+        //    return prob;
+        //}
 
         //private P contain_command()
         //{
